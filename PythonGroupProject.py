@@ -92,9 +92,39 @@ class Fruit:
     def draw(self):
         screen.blit(self.image, self.position)
 
+# little penis
+# o-3
+
+# For the title screen and how-to
+def show_title_screen():
+    title_font = pygame.font.SysFont("Arial", 48)
+    small_font = pygame.font.SysFont("Arial", 24)
+
+    title_text = title_font.render("Fruit Frenzy Snake", True, YELLOW)
+    move_text = small_font.render("Move: Arrow Keys", True, WHITE)
+    pause_text = small_font.render("Pause: ESC", True, WHITE)
+    start_text = small_font.render("Press Any Key to Start", True, GREEN)
+
+    screen.fill(BLACK)
+    screen.blit(title_text, (SCREEN_WIDTH // 2 - title_text.get_width() // 2, SCREEN_HEIGHT // 4))
+    screen.blit(move_text, (SCREEN_WIDTH // 2 - move_text.get_width() // 2, SCREEN_HEIGHT // 2))
+    screen.blit(pause_text, (SCREEN_WIDTH // 2 - pause_text.get_width() // 2, SCREEN_HEIGHT // 2 + 40))
+    screen.blit(start_text, (SCREEN_WIDTH // 2 - start_text.get_width() // 2, SCREEN_HEIGHT // 2 + 120))
+    pygame.display.flip()
+
+    waiting = True
+    while waiting:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            elif event.type == pygame.KEYDOWN:
+                waiting = False
+
 
 # Main Game Loop
 def main():
+    show_title_screen()
     background = pygame.image.load("background.png").convert()
     background = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
@@ -180,7 +210,11 @@ def main():
     
         if paused:
             paused_text = FONT.render("PAUSED", True, YELLOW)
-            screen.blit(paused_text, (SCREEN_WIDTH // 2 - paused_text.get_width() // 2, SCREEN_HEIGHT // 2))
+            move_text = FONT.render("Move: Arrow Keys", True, WHITE)
+            pause_text = FONT.render("Pause: ESC", True, WHITE)
+            screen.blit(paused_text, (SCREEN_WIDTH // 2 - paused_text.get_width() // 2, SCREEN_HEIGHT // 2 - 40))
+            screen.blit(move_text, (SCREEN_WIDTH // 2 - move_text.get_width() // 2, SCREEN_HEIGHT // 2))
+            screen.blit(pause_text, (SCREEN_WIDTH // 2 - pause_text.get_width() // 2, SCREEN_HEIGHT // 2 + 40))
     
         pygame.display.flip()
 
