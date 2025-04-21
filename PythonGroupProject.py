@@ -18,12 +18,13 @@ GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 BLACK = (0, 0, 0)
 YELLOW = (255, 255, 0)
+PURPLE = (128, 0, 128)
 
 # Display
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Fruit Frenzy Snake")
 
-#  Sounds
+# Sounds
 EAT_SOUND = pygame.mixer.Sound("eat.wav")
 GAME_OVER_SOUND = pygame.mixer.Sound("gameover.wav")
 
@@ -33,6 +34,7 @@ FRUIT_FILE = "fruits.txt"
 
 # Helper functions
 def load_fruits():
+    # Might not need this is we persist the fruits.txt file
     if not os.path.exists(FRUIT_FILE):
         with open(FRUIT_FILE, 'w') as f:
             f.write("apple\nbanana\nwatermelon\ngrapes\n")
@@ -71,7 +73,7 @@ class Snake:
 
     def draw(self):
         for segment in self.body:
-            pygame.draw.rect(screen, GREEN, (*segment, CELL_SIZE, CELL_SIZE))
+            pygame.draw.rect(screen, PURPLE, (*segment, CELL_SIZE, CELL_SIZE))
 
 # Fruit class
 class Fruit:
@@ -93,6 +95,8 @@ class Fruit:
 
 # Main Game Loop
 def main():
+    background = pygame.image.load("background.png").convert()
+    background = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
     snake = Snake()
     fruit_names = load_fruits()
@@ -103,6 +107,8 @@ def main():
     running = True
     while running:
         clock.tick(FPS)
+
+        # Key controls & Looping
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -162,11 +168,11 @@ def main():
             break
 
         # Drawing
-        screen.fill(BLACK)
+        screen.blit(background, (0, 0))
         snake.draw()
         fruit.draw()
         score_text = FONT.render(f"Score: {score}", True, WHITE)
-        high_score_text = FONT.render(f"High Score: {high_score}", True, YELLOW)
+        high_score_text = FONT.render(f"High Score: {high_score}", True, WHITE)
         screen.blit(score_text, (10, 10))
         screen.blit(high_score_text, (10, 40))
         pygame.display.flip()
