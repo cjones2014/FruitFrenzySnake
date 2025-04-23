@@ -37,7 +37,7 @@ def load_fruits():
     # Might not need this is we persist the fruits.txt file
     if not os.path.exists(FRUIT_FILE):
         with open(FRUIT_FILE, 'w') as f:
-            f.write("apple\nbanana\nwatermelon\ngrapes\n")
+            f.write("orange\nbanana\napple\n")
     with open(FRUIT_FILE, 'r') as f:
         return [line.strip() for line in f.readlines()]
 
@@ -79,10 +79,21 @@ class Snake:
 class Fruit:
     def __init__(self, fruit_list):
         self.fruit_list = fruit_list
-        self.image = pygame.transform.scale(
-            pygame.image.load("orange.png").convert_alpha(), (CELL_SIZE, CELL_SIZE)
-        )
+        self.name = random.choice(self.fruit_list)
+        self.image = self.load_image(self.name)
         self.position = self.random_position()
+    
+    def load_image(self, fruit_name):
+        image_path = f"{fruit_name}.png"
+        if os.path.exists(image_path):
+            return pygame.transform.scale(
+                pygame.image.load(image_path).convert_alpha(), (CELL_SIZE, CELL_SIZE)
+            )
+        else:
+            # fallback to default image if not found
+            return pygame.transform.scale(
+                pygame.image.load("orange.png").convert_alpha(), (CELL_SIZE, CELL_SIZE)
+            )
 
     def random_position(self):
         x = random.randint(0, (SCREEN_WIDTH - CELL_SIZE) // CELL_SIZE) * CELL_SIZE
