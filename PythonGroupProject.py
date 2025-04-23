@@ -103,9 +103,6 @@ class Fruit:
     def draw(self):
         screen.blit(self.image, self.position)
 
-# little penis
-# o-3
-
 # For the title screen and how-to
 def show_title_screen():
     title_font = pygame.font.SysFont("Arial", 48)
